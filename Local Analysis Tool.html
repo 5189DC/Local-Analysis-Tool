@@ -12,12 +12,54 @@
       --line: #d9e0e8;
       --panel: #ffffff;
       --wash: #f4f7f9;
+      --header: #ffffff;
+      --control-bg: #ffffff;
+      --control-border: #b8c6d2;
+      --soft-panel: #f8fafc;
+      --drop-bg: #f9fbfc;
+      --drop-active-bg: #eef8fa;
+      --label: #465466;
+      --canvas-border: #e3e8ee;
+      --table-border: #e7ecf1;
+      --table-head-bg: #f6f8fa;
+      --table-head: #405062;
+      --table-cell: #2a3643;
+      --tooltip-bg: rgba(23, 33, 43, 0.94);
       --accent: #176b87;
       --accent-2: #c75146;
       --ok: #2f7d55;
       --warn: #9a6819;
       --shadow: 0 14px 42px rgba(23, 33, 43, 0.1);
+      --top-panel-height: 400px;
+      --control-panel-width: 330px;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --ink: #eef4f8;
+      --muted: #9aabba;
+      --line: #2c3a47;
+      --panel: #151d25;
+      --wash: #0d1319;
+      --header: #101821;
+      --control-bg: #101821;
+      --control-border: #3b4b5a;
+      --soft-panel: #101821;
+      --drop-bg: #101821;
+      --drop-active-bg: #102a34;
+      --label: #b9c6d2;
+      --canvas-border: #344351;
+      --table-border: #263541;
+      --table-head-bg: #101821;
+      --table-head: #c3cfda;
+      --table-cell: #e1e9ef;
+      --tooltip-bg: rgba(238, 244, 248, 0.94);
+      --accent: #4fa8c3;
+      --accent-2: #e07167;
+      --ok: #75c79c;
+      --warn: #d9aa5f;
+      --shadow: 0 14px 42px rgba(0, 0, 0, 0.34);
     }
 
     * {
@@ -44,7 +86,7 @@
     }
 
     header {
-      background: #ffffff;
+      background: var(--header);
       border-bottom: 1px solid var(--line);
     }
 
@@ -64,6 +106,13 @@
       line-height: 1.1;
       font-weight: 760;
       letter-spacing: 0;
+    }
+
+    .version {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+      margin-left: 8px;
     }
 
     .file-status {
@@ -86,8 +135,8 @@
 
     .button,
     button {
-      border: 1px solid #b8c6d2;
-      background: #ffffff;
+      border: 1px solid var(--control-border);
+      background: var(--control-bg);
       color: var(--ink);
       border-radius: 7px;
       min-height: 38px;
@@ -122,9 +171,46 @@
       margin: 0 auto;
       padding: 18px 22px 24px;
       display: grid;
-      grid-template-columns: 390px minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr);
       gap: 18px;
       overflow: hidden;
+    }
+
+    .side-panel,
+    .workspace {
+      min-width: 0;
+      min-height: 0;
+      height: 100%;
+    }
+
+    .side-panel {
+      display: grid;
+      grid-template-columns: var(--control-panel-width) minmax(var(--control-panel-width), 1fr);
+      gap: 18px;
+      justify-content: start;
+    }
+
+    .layout-divider {
+      display: none;
+      min-height: 10px;
+      cursor: row-resize;
+      position: relative;
+    }
+
+    .layout-divider::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 4px;
+      height: 2px;
+      border-radius: 99px;
+      background: #cfd8e2;
+    }
+
+    .layout-divider:hover::before,
+    .layout-divider.dragging::before {
+      background: var(--accent);
     }
 
     aside,
@@ -139,10 +225,8 @@
     aside {
       min-width: 0;
       padding: 16px;
-      align-self: start;
-      position: sticky;
-      top: 16px;
-      max-height: calc(100vh - 112px);
+      min-height: 0;
+      height: 100%;
       overflow: auto;
     }
 
@@ -159,7 +243,7 @@
     .field label,
     .group-title {
       font-size: 12px;
-      color: #465466;
+      color: var(--label);
       font-weight: 760;
       text-transform: uppercase;
       letter-spacing: 0.06em;
@@ -169,9 +253,9 @@
     .search {
       width: 100%;
       min-height: 38px;
-      border: 1px solid #b8c6d2;
+      border: 1px solid var(--control-border);
       border-radius: 7px;
-      background: #ffffff;
+      background: var(--control-bg);
       color: var(--ink);
       padding: 8px 10px;
     }
@@ -179,7 +263,7 @@
     .dropzone {
       border: 1px dashed #aab8c5;
       border-radius: 8px;
-      background: #f9fbfc;
+      background: var(--drop-bg);
       min-height: 86px;
       display: grid;
       place-items: center;
@@ -190,7 +274,7 @@
 
     .dropzone.active {
       border-color: var(--accent);
-      background: #eef8fa;
+      background: var(--drop-active-bg);
       color: var(--accent);
     }
 
@@ -229,7 +313,7 @@
       padding: 7px 8px;
       border: 1px solid var(--line);
       border-radius: 7px;
-      background: #ffffff;
+      background: var(--control-bg);
       cursor: pointer;
     }
 
@@ -265,12 +349,8 @@
     }
 
     .workspace {
-      min-width: 0;
-      min-height: 0;
-      height: 100%;
       display: grid;
-      gap: 18px;
-      grid-template-rows: minmax(340px, 1fr) minmax(240px, 0.72fr);
+      grid-template-rows: minmax(0, 1fr);
     }
 
     .chart-shell {
@@ -280,6 +360,12 @@
       display: grid;
       grid-template-rows: auto 1fr auto;
       gap: 10px;
+      resize: vertical;
+      overflow: hidden;
+    }
+
+    .workspace.closed {
+      display: none;
     }
 
     .chart-head {
@@ -304,10 +390,26 @@
       justify-content: flex-end;
     }
 
+    .label-size-controls {
+      display: inline-flex;
+      gap: 4px;
+      align-items: center;
+      padding: 0 4px;
+      border: 1px solid var(--control-border);
+      border-radius: 7px;
+      background: var(--soft-panel);
+    }
+
+    .label-size-controls button {
+      min-width: 34px;
+      min-height: 34px;
+      padding: 4px 9px;
+    }
+
     .canvas-wrap {
       position: relative;
       min-height: 0;
-      border: 1px solid #e3e8ee;
+      border: 1px solid var(--canvas-border);
       border-radius: 7px;
       background: #ffffff;
       overflow: hidden;
@@ -338,8 +440,8 @@
       max-width: min(320px, 90vw);
       max-height: 260px;
       overflow: auto;
-      background: rgba(23, 33, 43, 0.94);
-      color: #ffffff;
+      background: var(--tooltip-bg);
+      color: var(--panel);
       border-radius: 7px;
       padding: 9px 10px;
       font-size: 12px;
@@ -359,7 +461,7 @@
       flex-wrap: wrap;
       gap: 8px 14px;
       align-items: center;
-      color: #465466;
+      color: var(--label);
       font-size: 13px;
     }
 
@@ -389,6 +491,7 @@
       padding: 10px 12px;
       border-bottom: 1px solid var(--line);
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
@@ -412,7 +515,7 @@
 
     th,
     td {
-      border-bottom: 1px solid #e7ecf1;
+      border-bottom: 1px solid var(--table-border);
       padding: 8px 10px;
       text-align: left;
     }
@@ -420,13 +523,13 @@
     th {
       position: sticky;
       top: 0;
-      background: #f6f8fa;
-      color: #405062;
+      background: var(--table-head-bg);
+      color: var(--table-head);
       z-index: 1;
     }
 
     td {
-      color: #2a3643;
+      color: var(--table-cell);
     }
 
     .message {
@@ -455,7 +558,19 @@
       border: 0;
     }
 
-    @media (max-width: 980px) {
+    @media (max-width: 1180px) {
+      main {
+        grid-template-rows: minmax(0, 1fr);
+        height: auto;
+        overflow: visible;
+      }
+
+      .side-panel {
+        grid-template-columns: var(--control-panel-width) minmax(var(--control-panel-width), 1fr);
+      }
+    }
+
+    @media (max-width: 880px) {
       .topbar {
         align-items: flex-start;
         flex-direction: column;
@@ -472,9 +587,24 @@
       }
 
       main {
-        grid-template-columns: 1fr;
+        grid-template-rows: auto;
         height: auto;
         overflow: visible;
+      }
+
+      .layout-divider {
+        display: none;
+      }
+
+      .side-panel {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+
+      aside,
+      .preview-shell {
+        height: auto;
+        min-height: 360px;
       }
 
       aside {
@@ -483,7 +613,7 @@
       }
 
       .workspace {
-        grid-template-rows: 480px auto;
+        grid-template-rows: 520px;
         height: auto;
       }
     }
@@ -494,7 +624,7 @@
     <header>
       <div class="topbar">
         <div>
-          <h1>Local Analysis Tool</h1>
+          <h1>Local Analysis Tool <span class="version">v1.0</span></h1>
           <div class="file-status" id="fileStatus">No CSV loaded</div>
         </div>
         <div class="toolbar">
@@ -503,67 +633,53 @@
             <span>CSV</span>
           </label>
           <input class="sr-only" id="csvInput" type="file" accept=".csv,text/csv">
-          <button id="exportPng" type="button" title="Save chart image">PNG</button>
+          <button id="themeToggle" type="button" title="Switch app theme">Night</button>
         </div>
       </div>
     </header>
 
     <main>
-      <aside>
-        <div class="stack">
-          <div class="dropzone" id="dropzone">Drop CSV</div>
+      <section class="side-panel">
+        <aside>
+          <div class="stack">
+            <div class="dropzone" id="dropzone">Drop CSV</div>
 
-          <div class="field">
-            <label for="xColumn">X axis</label>
-            <select id="xColumn" disabled></select>
-          </div>
-
-          <div class="field">
-            <label for="seriesSearch">Columns</label>
-            <input class="search" id="seriesSearch" type="search" placeholder="Search columns" disabled>
-          </div>
-
-          <div class="metric-row">
-            <div>
-              <strong id="selectedCount">0</strong>
-              <span> selected</span>
+            <div class="field">
+              <label for="xColumn">X axis</label>
+              <select id="xColumn" disabled></select>
             </div>
-            <button id="clearSeries" type="button" disabled>Clear</button>
-          </div>
 
-          <div class="series-list" id="seriesList" aria-live="polite"></div>
-
-          <label class="switch-row">
-            <span>Sort X axis</span>
-            <input id="sortByTime" type="checkbox" checked disabled>
-          </label>
-
-          <label class="switch-row">
-            <span>Connect gaps</span>
-            <input id="connectGaps" type="checkbox" disabled>
-          </label>
-
-          <div class="message" id="message"></div>
-        </div>
-      </aside>
-
-      <section class="workspace">
-        <div class="chart-shell">
-          <div class="chart-head">
-            <div class="chart-title" id="chartTitle">Chart</div>
-            <div class="chart-actions">
-              <button id="resetZoom" type="button" title="Reset chart view">Reset</button>
-              <button id="fixX" type="button" title="Show full X axis">Fit X</button>
-              <button id="fitY" type="button" disabled>Fit Y</button>
+            <div class="field">
+              <label for="seriesSearch">Columns</label>
+              <input class="search" id="seriesSearch" type="search" placeholder="Search columns" disabled>
             </div>
+
+            <div class="metric-row">
+              <div>
+                <strong id="selectedCount">0</strong>
+                <span> selected</span>
+              </div>
+              <div class="chart-actions">
+                <button id="showGraph" type="button">Graph</button>
+                <button id="clearSeries" type="button" disabled>Clear</button>
+              </div>
+            </div>
+
+            <div class="series-list" id="seriesList" aria-live="polite"></div>
+
+            <label class="switch-row">
+              <span>Sort X axis</span>
+              <input id="sortByTime" type="checkbox" checked disabled>
+            </label>
+
+            <label class="switch-row">
+              <span>Connect gaps</span>
+              <input id="connectGaps" type="checkbox" disabled>
+            </label>
+
+            <div class="message" id="message"></div>
           </div>
-          <div class="canvas-wrap" id="canvasWrap">
-            <canvas id="chart" aria-label="CSV chart"></canvas>
-            <div class="empty-state" id="emptyState">Open a CSV</div>
-            <div class="tooltip" id="tooltip"></div>
-          </div>
-          <div class="legend" id="legend"></div>
-        </div>
+        </aside>
 
         <div class="preview-shell">
           <div class="preview-head">
@@ -573,6 +689,33 @@
           <div class="table-wrap">
             <table id="previewTable"></table>
           </div>
+        </div>
+      </section>
+
+      <div class="layout-divider" id="layoutDivider" role="separator" aria-orientation="horizontal" aria-label="Resize panels"></div>
+
+      <section class="workspace">
+        <div class="chart-shell">
+          <div class="chart-head">
+            <div class="chart-title" id="chartTitle">Chart</div>
+            <div class="chart-actions">
+              <button id="resetZoom" type="button" title="Reset chart view">Reset</button>
+              <div class="label-size-controls" aria-label="Chart label size">
+                <button id="labelSmaller" type="button" title="Smaller chart labels">-</button>
+                <button id="labelLarger" type="button" title="Larger chart labels">+</button>
+              </div>
+              <button id="fixX" type="button" title="Show full X axis">Fit X</button>
+              <button id="fitY" type="button" disabled>Fit Y</button>
+              <button id="exportPng" type="button" title="Save chart image">PNG</button>
+              <button id="closeGraph" type="button" title="Close graph">Close</button>
+            </div>
+          </div>
+          <div class="canvas-wrap" id="canvasWrap">
+            <canvas id="chart" aria-label="CSV chart"></canvas>
+            <div class="empty-state" id="emptyState">Open a CSV</div>
+            <div class="tooltip" id="tooltip"></div>
+          </div>
+          <div class="legend" id="legend"></div>
         </div>
       </section>
     </main>
@@ -594,9 +737,16 @@
       xColumn: "",
       sortByTime: true,
       connectGaps: false,
+      labelFontSize: 12,
+      graphOpen: false,
+      graphWindow: null,
+      graphDockParent: null,
+      graphDockNextSibling: null,
       zoom: null,
       zoomHistory: [],
-      drag: null
+      drag: null,
+      pan: null,
+      theme: "light"
     };
 
     const els = {
@@ -607,11 +757,13 @@
       seriesSearch: document.getElementById("seriesSearch"),
       selectedCount: document.getElementById("selectedCount"),
       seriesList: document.getElementById("seriesList"),
+      showGraph: document.getElementById("showGraph"),
       clearSeries: document.getElementById("clearSeries"),
       sortByTime: document.getElementById("sortByTime"),
       connectGaps: document.getElementById("connectGaps"),
       message: document.getElementById("message"),
       chartTitle: document.getElementById("chartTitle"),
+      workspace: document.querySelector(".workspace"),
       canvasWrap: document.getElementById("canvasWrap"),
       canvas: document.getElementById("chart"),
       emptyState: document.getElementById("emptyState"),
@@ -619,11 +771,41 @@
       legend: document.getElementById("legend"),
       previewMeta: document.getElementById("previewMeta"),
       previewTable: document.getElementById("previewTable"),
+      layoutDivider: document.getElementById("layoutDivider"),
       resetZoom: document.getElementById("resetZoom"),
+      closeGraph: document.getElementById("closeGraph"),
+      labelSmaller: document.getElementById("labelSmaller"),
+      labelLarger: document.getElementById("labelLarger"),
       fixX: document.getElementById("fixX"),
       exportPng: document.getElementById("exportPng"),
-      fitY: document.getElementById("fitY")
+      fitY: document.getElementById("fitY"),
+      themeToggle: document.getElementById("themeToggle")
     };
+
+    function setTheme(theme, shouldSave = true) {
+      state.theme = theme === "dark" ? "dark" : "light";
+      document.documentElement.dataset.theme = state.theme;
+      els.themeToggle.textContent = state.theme === "dark" ? "Light" : "Night";
+      els.themeToggle.title = `Switch to ${state.theme === "dark" ? "light" : "night"} mode`;
+      if (state.graphWindow && !state.graphWindow.closed) {
+        state.graphWindow.document.documentElement.dataset.theme = state.theme;
+      }
+      if (shouldSave) {
+        try {
+          localStorage.setItem("local-analysis-tool-theme", state.theme);
+        } catch {
+          // Theme persistence is a convenience only.
+        }
+      }
+    }
+
+    function loadSavedTheme() {
+      try {
+        return localStorage.getItem("local-analysis-tool-theme") || "light";
+      } catch {
+        return "light";
+      }
+    }
 
     function parseCsv(text) {
       const rows = [];
@@ -767,6 +949,7 @@
           state.zoomHistory = [];
           state.hover = null;
           state.drag = null;
+          state.pan = null;
 
           analyzeColumns();
           chooseInitialColumns();
@@ -786,14 +969,120 @@
       els.message.className = `message ${type}`.trim();
     }
 
+    function rememberGraphDock() {
+      if (state.graphDockParent) return;
+      state.graphDockParent = els.workspace.parentNode;
+      state.graphDockNextSibling = els.workspace.nextSibling;
+    }
+
+    function dockGraph(shouldHide = true) {
+      rememberGraphDock();
+      if (els.workspace.ownerDocument !== document) {
+        state.graphDockParent.insertBefore(els.workspace, state.graphDockNextSibling);
+      }
+      state.graphOpen = !shouldHide;
+      els.workspace.classList.toggle("closed", shouldHide);
+      els.layoutDivider.hidden = shouldHide;
+      requestAnimationFrame(draw);
+    }
+
+    function openGraphWindow() {
+      if (state.graphWindow && !state.graphWindow.closed) {
+        state.graphWindow.focus();
+        state.graphOpen = true;
+        els.workspace.classList.remove("closed");
+        requestAnimationFrame(draw);
+        return true;
+      }
+
+      const popup = window.open("", "localAnalysisToolGraph", "popup,width=1200,height=760,resizable=yes,scrollbars=no");
+      if (!popup) {
+        dockGraph(false);
+        setMessage("Graph popup was blocked. Showing graph in this window.", "warn");
+        return false;
+      }
+
+      rememberGraphDock();
+      state.graphWindow = popup;
+      state.graphOpen = true;
+      els.workspace.classList.remove("closed");
+      els.layoutDivider.hidden = true;
+
+      const styles = Array.from(document.querySelectorAll("style"))
+        .map(style => style.textContent)
+        .join("\n");
+      popup.document.open();
+      popup.document.write(`<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Local Analysis Tool Graph</title>
+  <style>${styles}</style>
+  <style>
+    body { margin: 0; min-height: 100vh; background: var(--wash); overflow: hidden; }
+    .graph-popout-main {
+      max-width: none;
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      padding: 12px;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr);
+      overflow: hidden;
+    }
+    .workspace { height: 100%; }
+    .chart-shell { height: 100%; resize: none; }
+  </style>
+</head>
+<body>
+  <main class="graph-popout-main" id="graphMount"></main>
+</body>
+</html>`);
+      popup.document.close();
+      popup.document.documentElement.dataset.theme = state.theme;
+      popup.document.getElementById("graphMount").appendChild(els.workspace);
+      popup.addEventListener("beforeunload", () => {
+        if (state.graphWindow === popup) {
+          state.graphWindow = null;
+          dockGraph(true);
+        }
+      });
+      popup.addEventListener("mouseup", handleChartMouseUp);
+      popup.addEventListener("resize", draw);
+      popup.focus();
+      requestAnimationFrame(draw);
+      return true;
+    }
+
+    function setGraphOpen(isOpen) {
+      if (isOpen) {
+        openGraphWindow();
+        return;
+      }
+      state.graphOpen = false;
+      if (state.graphWindow && !state.graphWindow.closed) {
+        const popup = state.graphWindow;
+        state.graphWindow = null;
+        popup.removeEventListener("mouseup", handleChartMouseUp);
+        popup.removeEventListener("resize", draw);
+        popup.close();
+      }
+      dockGraph(true);
+    }
+
     function renderControls() {
       const hasData = state.rows.length > 0;
+      const graphDocked = els.workspace.ownerDocument === document;
+      els.workspace.classList.toggle("closed", graphDocked && !state.graphOpen);
+      els.layoutDivider.hidden = !graphDocked || !state.graphOpen;
       els.fileStatus.textContent = hasData ? state.fileName : "No CSV loaded";
       els.xColumn.disabled = !hasData;
       els.seriesSearch.disabled = !hasData;
       els.sortByTime.disabled = !hasData;
       els.connectGaps.disabled = !hasData;
       els.clearSeries.disabled = !hasData || state.selected.length === 0;
+      els.showGraph.disabled = !hasData;
       els.resetZoom.disabled = !hasData || state.selected.length === 0;
       els.fixX.disabled = !hasData || state.selected.length === 0;
       els.fitY.disabled = !hasData || state.selected.length === 0;
@@ -948,6 +1237,22 @@
       return makeRange(Math.min(...values), Math.max(...values));
     }
 
+    function getSeriesBounds(plotRows, xBounds) {
+      const result = new Map();
+      state.selected.forEach(header => {
+        const values = [];
+        plotRows.forEach(row => {
+          if (xBounds && (row.x < xBounds.min || row.x > xBounds.max)) return;
+          const value = row.values[header];
+          if (value != null) values.push(value);
+        });
+        if (values.length) {
+          result.set(header, makeRange(Math.min(...values), Math.max(...values)));
+        }
+      });
+      return result;
+    }
+
     function getVisibleZoom(fullXBounds, autoYBounds) {
       if (!state.zoom) {
         return { xMin: fullXBounds.min, xMax: fullXBounds.max, yMin: autoYBounds.min, yMax: autoYBounds.max };
@@ -971,6 +1276,112 @@
       draw();
     }
 
+    function setTopPanelHeight(height) {
+      const mainRect = document.querySelector("main").getBoundingClientRect();
+      const minHeight = 260;
+      const maxHeight = Math.max(minHeight, mainRect.height - 260);
+      const nextHeight = clamp(height, minHeight, maxHeight);
+      document.documentElement.style.setProperty("--top-panel-height", `${Math.round(nextHeight)}px`);
+      draw();
+    }
+
+    function setLabelFontSize(size) {
+      state.labelFontSize = clamp(size, 9, 18);
+      draw();
+    }
+
+    function clampRange(min, max, bounds) {
+      if (!bounds || !Number.isFinite(bounds.min) || !Number.isFinite(bounds.max)) {
+        return { min, max };
+      }
+      const range = max - min;
+      const fullRange = bounds.max - bounds.min;
+      if (!Number.isFinite(range) || range <= 0 || range >= fullRange) {
+        return { min: bounds.min, max: bounds.max };
+      }
+      if (min < bounds.min) {
+        return { min: bounds.min, max: bounds.min + range };
+      }
+      if (max > bounds.max) {
+        return { min: bounds.max - range, max: bounds.max };
+      }
+      return { min, max };
+    }
+
+    function panZoom(dx, dy) {
+      if (!state.pan?.active || !state.lastPlot) return;
+      const { chart, fullXBounds, fullYBounds } = state.lastPlot;
+      const start = state.pan.startBounds;
+      const xRange = start.xMax - start.xMin || 1;
+      const yRange = start.yMax - start.yMin || 1;
+      const shiftedX = clampRange(
+        start.xMin - (dx / chart.width) * xRange,
+        start.xMax - (dx / chart.width) * xRange,
+        fullXBounds
+      );
+      const shiftedY = clampRange(
+        start.yMin + (dy / chart.height) * yRange,
+        start.yMax + (dy / chart.height) * yRange,
+        fullYBounds
+      );
+      state.zoom = {
+        xMin: shiftedX.min,
+        xMax: shiftedX.max,
+        yMin: shiftedY.min,
+        yMax: shiftedY.max
+      };
+    }
+
+    function panVisibleChart(deltaX, deltaY) {
+      if (!state.lastPlot || !state.selected.length) return false;
+      const { xBounds, yBounds, fullXBounds, fullYBounds } = state.lastPlot;
+      const xRange = xBounds.max - xBounds.min || 1;
+      const yRange = yBounds.max - yBounds.min || 1;
+      const xShift = (deltaX / 600) * xRange;
+      const yShift = (deltaY / 600) * yRange;
+      const shiftedX = clampRange(xBounds.min + xShift, xBounds.max + xShift, fullXBounds);
+      const shiftedY = clampRange(yBounds.min - yShift, yBounds.max - yShift, fullYBounds);
+      state.zoom = {
+        xMin: shiftedX.min,
+        xMax: shiftedX.max,
+        yMin: shiftedY.min,
+        yMax: shiftedY.max
+      };
+      draw();
+      return true;
+    }
+
+    function zoomVisibleChart(event) {
+      if (!state.lastPlot || !state.selected.length) return false;
+      const { xBounds, yBounds, fullXBounds, fullYBounds } = state.lastPlot;
+      const point = getPointer(event);
+      const xRange = xBounds.max - xBounds.min || 1;
+      const yRange = yBounds.max - yBounds.min || 1;
+      const fullXRange = fullXBounds.max - fullXBounds.min || xRange;
+      const fullYRange = fullYBounds.max - fullYBounds.min || yRange;
+      const minXRange = Math.max(fullXRange / 100000, 0.000001);
+      const minYRange = Math.max(fullYRange / 100000, 0.000001);
+      const factor = clamp(Math.exp(event.deltaY * 0.002), 0.75, 1.35);
+      const centerX = state.lastPlot.xValueForPixel(point.x);
+      const centerY = state.lastPlot.yValueForPixel(point.y);
+      const xRatio = clamp((centerX - xBounds.min) / xRange, 0, 1);
+      const yRatio = clamp((centerY - yBounds.min) / yRange, 0, 1);
+      const nextXRange = clamp(xRange * factor, minXRange, fullXRange);
+      const nextYRange = clamp(yRange * factor, minYRange, fullYRange);
+      const nextXMin = centerX - nextXRange * xRatio;
+      const nextYMin = centerY - nextYRange * yRatio;
+      const shiftedX = clampRange(nextXMin, nextXMin + nextXRange, fullXBounds);
+      const shiftedY = clampRange(nextYMin, nextYMin + nextYRange, fullYBounds);
+      state.zoom = {
+        xMin: shiftedX.min,
+        xMax: shiftedX.max,
+        yMin: shiftedY.min,
+        yMax: shiftedY.max
+      };
+      draw();
+      return true;
+    }
+
     function setupCanvas() {
       const rect = els.canvasWrap.getBoundingClientRect();
       const dpr = window.devicePixelRatio || 1;
@@ -982,8 +1393,11 @@
     }
 
     function draw() {
+      if (!state.graphOpen) return;
       const { ctx, width, height } = setupCanvas();
       ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, width, height);
 
       const hasData = state.rows.length > 0 && state.selected.length > 0;
       els.emptyState.style.display = hasData ? "none" : "grid";
@@ -996,6 +1410,7 @@
       const { rows: plotRows, xMode } = getPlotRows();
       const fullXBounds = getFullXBounds(plotRows);
       const baseXBounds = state.zoom ? { min: state.zoom.xMin ?? fullXBounds.min, max: state.zoom.xMax ?? fullXBounds.max } : fullXBounds;
+      const fullYBounds = getYBounds(plotRows, null);
       const autoYBounds = getYBounds(plotRows, baseXBounds);
       if (!autoYBounds) {
         els.emptyState.style.display = "grid";
@@ -1006,14 +1421,23 @@
       const zoom = getVisibleZoom(fullXBounds, autoYBounds);
       const yBounds = { min: zoom.yMin, max: zoom.yMax };
       const xBounds = { min: zoom.xMin, max: zoom.xMax };
+      const seriesBounds = getSeriesBounds(plotRows, xBounds);
+      if (!seriesBounds.size) {
+        els.emptyState.style.display = "grid";
+        els.emptyState.textContent = "No numeric values";
+        return;
+      }
 
+      const axisGap = 66;
+      const axisCount = Math.max(1, state.selected.length);
       const chart = {
-        left: 78,
+        left: 78 + Math.max(0, axisCount - 1) * axisGap,
         right: 18,
-        top: 18,
+        top: 34,
         bottom: 48,
-        width: Math.max(10, width - 96),
-        height: Math.max(10, height - 66)
+        axisGap,
+        width: Math.max(10, width - 96 - Math.max(0, axisCount - 1) * axisGap),
+        height: Math.max(10, height - 82)
       };
       chart.rightX = chart.left + chart.width;
       chart.bottomY = chart.top + chart.height;
@@ -1022,37 +1446,61 @@
       const yRange = yBounds.max - yBounds.min || 1;
 
       const xFor = row => chart.left + ((row.x - xBounds.min) / xRange) * chart.width;
-      const yFor = value => chart.bottomY - ((value - yBounds.min) / yRange) * chart.height;
+      const yFor = (header, value) => {
+        const bounds = seriesBounds.get(header) || yBounds;
+        const range = bounds.max - bounds.min || 1;
+        return chart.bottomY - ((value - bounds.min) / range) * chart.height;
+      };
       const xValueForPixel = px => xBounds.min + ((px - chart.left) / chart.width) * xRange;
       const yValueForPixel = py => yBounds.max - ((py - chart.top) / chart.height) * yRange;
 
-      drawGrid(ctx, chart, yBounds, plotRows, xMode, xBounds, xFor);
+      drawGrid(ctx, chart, seriesBounds, plotRows, xMode, xBounds, xFor);
       drawSeries(ctx, plotRows, xFor, yFor, chart);
       drawHover(ctx, plotRows, chart, xFor, yFor);
       drawDrag(ctx, chart);
 
-      state.lastPlot = { plotRows, chart, xFor, yFor, xValueForPixel, yValueForPixel, xBounds, yBounds, fullXBounds, xMode };
+      state.lastPlot = { plotRows, chart, xFor, yFor, xValueForPixel, yValueForPixel, xBounds, yBounds, fullXBounds, fullYBounds, seriesBounds, xMode };
     }
 
-    function drawGrid(ctx, chart, yBounds, plotRows, xMode, xBounds, xFor) {
+    function drawGrid(ctx, chart, seriesBounds, plotRows, xMode, xBounds, xFor) {
       ctx.save();
       ctx.lineWidth = 1;
       ctx.strokeStyle = "#e8edf2";
       ctx.fillStyle = "#647386";
-      ctx.font = "12px Inter, system-ui, sans-serif";
+      ctx.font = `${state.labelFontSize}px Inter, system-ui, sans-serif`;
       ctx.textBaseline = "middle";
 
-      const yTickCount = Math.min(10, Math.max(5, 4 + state.selected.length * 2));
-      for (let i = 0; i <= yTickCount; i += 1) {
-        const y = chart.top + (chart.height * i) / yTickCount;
-        const value = yBounds.max - ((yBounds.max - yBounds.min) * i) / yTickCount;
+      const yTickCount = Math.min(8, Math.max(4, 3 + state.selected.length));
+      state.selected.forEach((header, index) => {
+        const bounds = seriesBounds.get(header);
+        if (!bounds) return;
+        const axisX = chart.left - index * chart.axisGap;
+        const color = COLORS[index % COLORS.length];
+        ctx.strokeStyle = index === 0 ? "#e8edf2" : "#edf1f5";
+        for (let i = 0; i <= yTickCount; i += 1) {
+          const y = chart.top + (chart.height * i) / yTickCount;
+          const value = bounds.max - ((bounds.max - bounds.min) * i) / yTickCount;
+          if (index === 0) {
+            ctx.beginPath();
+            ctx.moveTo(chart.left, y);
+            ctx.lineTo(chart.rightX, y);
+            ctx.stroke();
+          }
+          ctx.fillStyle = "#647386";
+          ctx.textAlign = "right";
+          ctx.fillText(formatNumber(value), axisX - 8, y);
+        }
+        ctx.strokeStyle = color;
         ctx.beginPath();
-        ctx.moveTo(chart.left, y);
-        ctx.lineTo(chart.rightX, y);
+        ctx.moveTo(axisX, chart.top);
+        ctx.lineTo(axisX, chart.bottomY);
         ctx.stroke();
-        ctx.textAlign = "right";
-        ctx.fillText(formatNumber(value), chart.left - 10, y);
-      }
+        ctx.fillStyle = color;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "bottom";
+        ctx.fillText(trimText(ctx, header, chart.axisGap - 10), axisX, chart.top - 8);
+        ctx.textBaseline = "middle";
+      });
 
       const ticks = makeXTicks(plotRows, xBounds, chart.width);
       ctx.textAlign = "center";
@@ -1145,7 +1593,7 @@
             return;
           }
           const x = xFor(row);
-          const y = yFor(value);
+          const y = yFor(header, value);
           if (!drawing) {
             ctx.moveTo(x, y);
             drawing = true;
@@ -1159,7 +1607,7 @@
           const value = row.values[header];
           if (value == null) return;
           const x = xFor(row);
-          const y = yFor(value);
+          const y = yFor(header, value);
           if (x < chart.left - 6 || x > chart.rightX + 6 || y < chart.top - 6 || y > chart.bottomY + 6) return;
           ctx.beginPath();
           ctx.fillStyle = COLORS[seriesIndex % COLORS.length];
@@ -1224,7 +1672,7 @@
         ctx.strokeStyle = COLORS[index % COLORS.length];
         ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.arc(x, yFor(value), 5, 0, Math.PI * 2);
+        ctx.arc(x, yFor(header, value), 5, 0, Math.PI * 2);
         ctx.fill();
         ctx.stroke();
       });
@@ -1330,6 +1778,7 @@
       renderControls();
       draw();
     });
+    els.showGraph.addEventListener("click", () => setGraphOpen(true));
     els.sortByTime.addEventListener("change", () => {
       state.sortByTime = els.sortByTime.checked;
       draw();
@@ -1342,8 +1791,12 @@
       state.zoom = null;
       state.zoomHistory = [];
       state.drag = null;
+      state.pan = null;
       draw();
     });
+    els.closeGraph.addEventListener("click", () => setGraphOpen(false));
+    els.labelSmaller.addEventListener("click", () => setLabelFontSize(state.labelFontSize - 1));
+    els.labelLarger.addEventListener("click", () => setLabelFontSize(state.labelFontSize + 1));
     els.fixX.addEventListener("click", () => {
       if (!state.lastPlot) return;
       const current = state.zoom || {};
@@ -1360,6 +1813,56 @@
       draw();
     });
     els.exportPng.addEventListener("click", exportPng);
+    els.themeToggle.addEventListener("click", () => {
+      setTheme(state.theme === "dark" ? "light" : "dark");
+    });
+
+    els.layoutDivider.addEventListener("mousedown", event => {
+      const mainRect = document.querySelector("main").getBoundingClientRect();
+      const startY = event.clientY;
+      const startHeight = document.querySelector(".side-panel").getBoundingClientRect().height;
+      els.layoutDivider.classList.add("dragging");
+
+      const move = moveEvent => {
+        setTopPanelHeight(startHeight + moveEvent.clientY - startY);
+      };
+
+      const stop = () => {
+        els.layoutDivider.classList.remove("dragging");
+        window.removeEventListener("mousemove", move);
+        window.removeEventListener("mouseup", stop);
+      };
+
+      event.preventDefault();
+      if (mainRect.height > 0) {
+        window.addEventListener("mousemove", move);
+        window.addEventListener("mouseup", stop);
+      }
+    });
+
+    els.layoutDivider.addEventListener("touchstart", event => {
+      const touch = event.touches[0];
+      if (!touch) return;
+      const startY = touch.clientY;
+      const startHeight = document.querySelector(".side-panel").getBoundingClientRect().height;
+      els.layoutDivider.classList.add("dragging");
+
+      const move = moveEvent => {
+        const nextTouch = moveEvent.touches[0];
+        if (!nextTouch) return;
+        setTopPanelHeight(startHeight + nextTouch.clientY - startY);
+      };
+
+      const stop = () => {
+        els.layoutDivider.classList.remove("dragging");
+        window.removeEventListener("touchmove", move);
+        window.removeEventListener("touchend", stop);
+      };
+
+      event.preventDefault();
+      window.addEventListener("touchmove", move, { passive: false });
+      window.addEventListener("touchend", stop);
+    }, { passive: false });
 
     els.dropzone.addEventListener("dragover", event => {
       event.preventDefault();
@@ -1390,15 +1893,32 @@
     }
 
     els.canvasWrap.addEventListener("mousedown", event => {
-      if (event.button !== 0 || !state.lastPlot || !state.selected.length) return;
+      if (!state.lastPlot || !state.selected.length) return;
       const point = getPointer(event);
-      state.drag = {
-        active: true,
-        startX: point.x,
-        startY: point.y,
-        currentX: point.x,
-        currentY: point.y
-      };
+      if (event.button === 0) {
+        state.drag = {
+          active: true,
+          startX: point.x,
+          startY: point.y,
+          currentX: point.x,
+          currentY: point.y
+        };
+      } else if (event.button === 2) {
+        state.pan = {
+          active: true,
+          moved: false,
+          startRawX: point.rawX,
+          startRawY: point.rawY,
+          startBounds: {
+            xMin: state.lastPlot.xBounds.min,
+            xMax: state.lastPlot.xBounds.max,
+            yMin: state.lastPlot.yBounds.min,
+            yMax: state.lastPlot.yBounds.max
+          }
+        };
+      } else {
+        return;
+      }
       event.preventDefault();
       draw();
     });
@@ -1411,10 +1931,26 @@
         state.drag.currentX = point.x;
         state.drag.currentY = point.y;
       }
+      if (state.pan?.active) {
+        const dx = point.rawX - state.pan.startRawX;
+        const dy = point.rawY - state.pan.startRawY;
+        if (Math.abs(dx) > 2 || Math.abs(dy) > 2) state.pan.moved = true;
+        panZoom(dx, dy);
+      }
       draw();
     });
 
-    window.addEventListener("mouseup", () => {
+    function handleChartMouseUp(event) {
+      if (state.pan?.active && state.lastPlot) {
+        const pan = state.pan;
+        state.pan = null;
+        if (!pan.moved && event.button === 2) {
+          state.zoom = state.zoomHistory.length ? state.zoomHistory.pop() : null;
+        }
+        draw();
+        return;
+      }
+
       if (!state.drag?.active || !state.lastPlot) return;
       const drag = state.drag;
       state.drag = null;
@@ -1430,21 +1966,31 @@
       const y1 = state.lastPlot.yValueForPixel(Math.max(drag.startY, drag.currentY));
       const y2 = state.lastPlot.yValueForPixel(Math.min(drag.startY, drag.currentY));
       pushZoom({ xMin: x1, xMax: x2, yMin: y1, yMax: y2 });
-    });
+    }
+
+    window.addEventListener("mouseup", handleChartMouseUp);
 
     els.canvasWrap.addEventListener("contextmenu", event => {
       event.preventDefault();
-      state.drag = null;
-      state.zoom = state.zoomHistory.length ? state.zoomHistory.pop() : null;
-      draw();
     });
 
+    els.canvasWrap.addEventListener("wheel", event => {
+      if (!state.lastPlot || !state.selected.length) return;
+      event.preventDefault();
+      if (event.ctrlKey) {
+        zoomVisibleChart(event);
+      } else {
+        panVisibleChart(event.deltaX, event.deltaY);
+      }
+    }, { passive: false });
+
     els.canvasWrap.addEventListener("mouseleave", () => {
-      if (!state.drag?.active) state.hover = null;
+      if (!state.drag?.active && !state.pan?.active) state.hover = null;
       draw();
     });
     window.addEventListener("resize", draw);
 
+    setTheme(loadSavedTheme(), false);
     renderControls();
     renderPreview();
     draw();

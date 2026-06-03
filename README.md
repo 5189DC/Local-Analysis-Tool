@@ -1,22 +1,26 @@
 # Local Analysis Tool
 
-Current version: `v0.0`
+Current version: `v1.0`
 
 A local CSV plotting tool for quick data inspection. It runs in your browser from a single HTML file and does not need an internet connection, server, or install.
 
-## v0.0
+## v1.0
 
-This first version includes:
+This release includes:
 
 - CSV import from file picker or drag and drop.
 - Automatic X-axis detection for date/time columns.
 - Manual column selection, with no series selected by default.
-- Smarter X-axis labels that update when the chart is zoomed.
-- More Y-axis tick labels when multiple columns are selected.
-- Chart zoom by left-click drag, with `Reset`, `Fit X`, and `Fit Y` controls.
+- Separate resizable graph window, with a `Graph` button to reopen it.
+- Separate Y axes for multiple selected columns, with axis titles above each axis.
+- Smarter X-axis labels that update when the chart is zoomed or resized.
+- Chart zoom by left-click drag and trackpad pinch.
+- Chart panning by normal scrolling or right-click drag.
+- Chart controls for `Reset`, label size, `Fit X`, `Fit Y`, `PNG`, and `Close`.
+- Light and night mode toggle, remembered between sessions.
 - Optional X-axis sorting and gap connection.
 - Full data preview table with scrollable rows and columns.
-- PNG export for the current chart.
+- PNG export for the current chart, always on a white background.
 
 ## Open the App
 
@@ -30,11 +34,14 @@ If macOS asks for permission to run the `.command` file, you can open the HTML f
 2. Choose any column for the `X axis`. This can be a date, number, or text column.
 3. Choose any number of numeric columns to plot.
 4. Use `Sort X axis` when the X axis is a date or number.
-5. Left-click and drag across the chart to zoom into an area.
-6. Right-click the chart to zoom back out one step.
-7. Use `Fit X` to restore the full X axis while keeping the current Y view.
-8. Use `Connect gaps` if the data has blanks and you want lines to continue across missing values.
-9. Click `PNG` to save the current chart image.
+5. Click `Graph` to open the chart in a separate resizable window.
+6. Left-click and drag across the chart to zoom into an area.
+7. Use trackpad pinch to zoom in or out around the pointer.
+8. Scroll normally or right-click drag to pan around a zoomed chart.
+9. Right-click without dragging to step back through zoom history.
+10. Use `Fit X` to restore the full X axis while keeping the current Y view.
+11. Use `Connect gaps` if the data has blanks and you want lines to continue across missing values.
+12. Click `PNG` in the graph window to save the current chart image.
 
 ## Apple Numbers Files
 
