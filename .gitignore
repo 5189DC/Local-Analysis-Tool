@@ -1,3 +1,7 @@
 .DS_Store
 *.numbers
 Fuel-Table.csv
+__pycache__/
+.venv/
+venv/
+.streamlit/secrets.toml

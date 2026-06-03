@@ -1,12 +1,35 @@
 # Local Analysis Tool
 
-Current version: `v1.0`
+Current version: `v1.1`
 
-A local CSV plotting tool for quick data inspection. It runs in your browser from a single HTML file and does not need an internet connection, server, or install.
+A local CSV plotting tool for quick data inspection. The project now has two local versions:
 
-## v1.0
+- `Local Analysis Tool.html` for simple sharing and normal CSV files.
+- `python-app/` for heavier CSV files that need a local Python helper.
 
-This release includes:
+Both versions run locally on your computer. Your CSV data is not uploaded to the internet.
+
+## Which Version Should I Use?
+
+Use the HTML app when you want the easiest option:
+
+- Open `Local Analysis Tool.html` directly.
+- No install.
+- Good for normal CSV files.
+- Best for sharing with people who do not want to use Terminal.
+
+Use the Python app when the CSV is large or the HTML version feels slow:
+
+- Open the app through Terminal.
+- Uses Streamlit and DuckDB locally.
+- Better for larger CSV previewing, row limits, sampling, and plotting.
+- Setup instructions are in `python-app/README.md`.
+
+## v1.1
+
+This release adds the separate Python app for heavier CSV files while keeping the original HTML app.
+
+The HTML app includes:
 
 - CSV import from file picker or drag and drop.
 - Automatic row 2 unit detection for CSVs that put units below the header row.
@@ -23,11 +46,27 @@ This release includes:
 - Full data preview table with scrollable rows and columns.
 - PNG export for the current chart, always on a white background.
 
-## Open the App
+The Python app includes:
+
+- CSV upload or local CSV path input.
+- DuckDB-backed previewing for larger CSV files.
+- Row 2 unit detection.
+- Preview row limits and plot row limits.
+- Plot every Nth row sampling for large charts.
+- Zoom/pan chart interactions.
+- Separate colored Y axes for multiple selected columns.
+
+## Open the HTML App
 
 Double-click `Local Analysis Tool.html`.
 
-## Use It
+## Open the Python App
+
+Use this for heavier CSV files.
+
+Read `python-app/README.md` for beginner-friendly macOS and Windows setup steps.
+
+## Use the HTML App
 
 1. Click `+ CSV` or drop a CSV file onto the app.
 2. Choose any column for the `X axis`. This can be a date, number, or text column.
