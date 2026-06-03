@@ -9,6 +9,7 @@ A local CSV plotting tool for quick data inspection. It runs in your browser fro
 This release includes:
 
 - CSV import from file picker or drag and drop.
+- Automatic row 2 unit detection for CSVs that put units below the header row.
 - Automatic X-axis detection for date/time columns.
 - Manual column selection, with no series selected by default.
 - Separate resizable graph window, with a `Graph` button to reopen it.
@@ -44,6 +45,10 @@ Double-click `Local Analysis Tool.html`.
 ## Apple Numbers Files
 
 The app reads CSV files. For a `.numbers` file, open it in Apple Numbers first, then use `File > Export To > CSV`, and import the exported CSV into this app.
+
+## CSV Unit Rows
+
+If row 2 looks like a units row, the app treats it as metadata instead of data. For example, headers in row 1 and units like `mile`, `GBP`, or `%` in row 2 will make the preview and chart start from row 3, while labels show units such as `Odometer (mile)`.
 
 ## Notes
 

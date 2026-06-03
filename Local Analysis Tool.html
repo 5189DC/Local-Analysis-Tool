@@ -731,6 +731,8 @@
       fileName: "",
       headers: [],
       rows: [],
+      units: {},
+      hasUnitRow: false,
       columnStats: new Map(),
       selected: [],
       hover: null,
@@ -887,6 +889,50 @@
       return new Intl.NumberFormat([], { maximumFractionDigits: digits }).format(value);
     }
 
+    function displayHeader(header) {
+      const unit = state.units[header];
+      return unit ? `${header} (${unit})` : header;
+    }
+
+    function isLikelyUnitCell(value) {
+      const raw = String(value ?? "").trim();
+      if (!raw) return false;
+      if (parseNumber(raw) != null || parseTime(raw) != null) return false;
+      if (raw.length > 24) return false;
+      if (/[,;:]/.test(raw)) return false;
+      if (/\s/.test(raw) && !/^(per|each|total|average|avg)$/i.test(raw)) return false;
+      return /[A-Za-z%°£$€¥/²³µμ-]/.test(raw);
+    }
+
+    function detectUnitRow(parsed, headers) {
+      if (parsed.length < 3) return { units: {}, dataStartIndex: 1, hasUnitRow: false };
+      const candidate = parsed[1] || [];
+      const firstData = parsed[2] || [];
+      let unitLike = 0;
+      let populated = 0;
+      let firstDataValues = 0;
+
+      headers.forEach((header, index) => {
+        const unit = String(candidate[index] ?? "").trim();
+        if (unit) populated += 1;
+        if (isLikelyUnitCell(unit)) unitLike += 1;
+        if (parseNumber(firstData[index]) != null || parseTime(firstData[index]) != null) firstDataValues += 1;
+      });
+
+      const populatedRatio = populated / Math.max(1, headers.length);
+      const unitRatio = unitLike / Math.max(1, populated);
+      const dataRatio = firstDataValues / Math.max(1, headers.length);
+      const hasUnitRow = populated >= 1 && populatedRatio >= 0.3 && unitRatio >= 0.7 && dataRatio >= 0.3;
+      if (!hasUnitRow) return { units: {}, dataStartIndex: 1, hasUnitRow: false };
+
+      const units = {};
+      headers.forEach((header, index) => {
+        const unit = String(candidate[index] ?? "").trim();
+        if (isLikelyUnitCell(unit)) units[header] = unit;
+      });
+      return { units, dataStartIndex: 2, hasUnitRow: true };
+    }
+
     function analyzeColumns() {
       state.columnStats.clear();
       state.headers.forEach(header => {
@@ -936,8 +982,11 @@
             return clean || `Column ${index + 1}`;
           });
 
+          const unitInfo = detectUnitRow(parsed, headers);
           state.headers = headers;
-          state.rows = parsed.slice(1).map(values => {
+          state.units = unitInfo.units;
+          state.hasUnitRow = unitInfo.hasUnitRow;
+          state.rows = parsed.slice(unitInfo.dataStartIndex).map(values => {
             const row = {};
             headers.forEach((header, index) => {
               row[header] = values[index] == null ? "" : values[index].trim();
@@ -956,7 +1005,8 @@
           renderControls();
           renderPreview();
           draw();
-          setMessage(`Loaded ${state.rows.length} rows and ${state.headers.length} columns. Preview shows all rows.`, "ok");
+          const unitMessage = state.hasUnitRow ? " Detected row 2 as units and skipped it for data." : "";
+          setMessage(`Loaded ${state.rows.length} rows and ${state.headers.length} columns.${unitMessage} Preview shows all data rows.`, "ok");
         } catch (error) {
           setMessage(error.message, "warn");
         }
@@ -1091,7 +1141,7 @@
       state.headers.forEach(header => {
         const option = document.createElement("option");
         option.value = header;
-        option.textContent = header;
+        option.textContent = displayHeader(header);
         option.selected = header === state.xColumn;
         els.xColumn.appendChild(option);
       });
@@ -1108,7 +1158,7 @@
 
       state.headers
         .filter(header => header !== state.xColumn)
-        .filter(header => !query || header.toLowerCase().includes(query))
+        .filter(header => !query || displayHeader(header).toLowerCase().includes(query))
         .sort((a, b) => {
           const aStats = state.columnStats.get(a);
           const bStats = state.columnStats.get(b);
@@ -1129,7 +1179,7 @@
           input.addEventListener("change", () => toggleSeries(header, input.checked));
 
           const name = document.createElement("span");
-          name.textContent = header;
+          name.textContent = displayHeader(header);
 
           const count = document.createElement("small");
           count.textContent = `${stats.numeric}/${state.rows.length}`;
@@ -1498,7 +1548,7 @@
         ctx.fillStyle = color;
         ctx.textAlign = "center";
         ctx.textBaseline = "bottom";
-        ctx.fillText(trimText(ctx, header, chart.axisGap - 10), axisX, chart.top - 8);
+        ctx.fillText(trimText(ctx, displayHeader(header), chart.axisGap - 10), axisX, chart.top - 8);
         ctx.textBaseline = "middle";
       });
 
@@ -1683,7 +1733,7 @@
           const value = closest.values[header];
           if (value == null) return "";
           const color = COLORS[index % COLORS.length];
-          return `<div><span style="color:${color}">■</span> ${escapeHtml(header)}: ${formatNumber(value)}</div>`;
+          return `<div><span style="color:${color}">■</span> ${escapeHtml(displayHeader(header))}: ${formatNumber(value)}</div>`;
         })
         .filter(Boolean)
         .join("");
@@ -1717,7 +1767,7 @@
         swatch.className = "swatch";
         swatch.style.background = COLORS[index % COLORS.length];
         const name = document.createElement("span");
-        name.textContent = header;
+        name.textContent = displayHeader(header);
         item.append(swatch, name);
         els.legend.appendChild(item);
       });
@@ -1733,7 +1783,7 @@
       const headRow = document.createElement("tr");
       state.headers.forEach(header => {
         const th = document.createElement("th");
-        th.textContent = header;
+        th.textContent = displayHeader(header);
         headRow.appendChild(th);
       });
       thead.appendChild(headRow);
