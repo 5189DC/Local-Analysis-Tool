@@ -24,9 +24,7 @@ This release includes:
 
 ## Open the App
 
-Double-click `Open Local Analysis Tool.command`, or double-click `Local Analysis Tool.html`.
-
-If macOS asks for permission to run the `.command` file, you can open the HTML file directly instead.
+Double-click `Local Analysis Tool.html`.
 
 ## Use It
 
